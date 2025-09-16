@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather API Wrapper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      max-width: 600px;
+    }
+    h1 {
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      margin-bottom: 10px;
+      padding: 8px;
+      width: 200px;
+    }
+    button {
+      padding: 8px 15px;
+      cursor: pointer;
+      background: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f4f4f4;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather Report</h1>
+
+  <form id="weatherForm">
+    <label>Latitude: <input type="number" step="any" id="lat" required></label>
+    <label>Longitude: <input type="number" step="any" id="lon" required></label>
+    <button type="submit">Get Weather</button>
+  </form>
+
+  <h2>Result:</h2>
+  <div id="result">No data yet</div>
+
+  <script>
+    document.getElementById("weatherForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const lat = document.getElementById("lat").value;
+      const lon = document.getElementById("lon").value;
+      const resultBox = document.getElementById("result");
+
+      try {
+        const res = await fetch(`/weather?lat=${lat}&lon=${lon}`);
+        if (!res.ok) throw new Error("API request failed");
+        const data = await res.json();
+
+        resultBox.innerHTML = `
+          <strong>Latitude:</strong> ${data.latitude}<br>
+          <strong>Longitude:</strong> ${data.longitude}<br>
+          <strong>Temperature:</strong> ${data.temperature} °C<br>
+          <strong>Report:</strong> ${data.report}
+        `;
+      } catch (err) {
+        resultBox.textContent = "Error: " + err.message;
+      }
+    };
+  </script>
+</body>
+</html>
