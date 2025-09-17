@@ -4,6 +4,7 @@ from app.llm import generate_weather_report
 
 router = APIRouter()
 
+
 @router.get("/weather")
 async def get_weather(
     lat: float = Query(..., ge=-90, le=90),

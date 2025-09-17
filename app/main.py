@@ -10,10 +10,12 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
 # Root health check
 @app.get("/")
 async def root():
     return {"message": "Weather API Wrapper is running. Go to /weather"}
+
 
 # Mount frontend folder
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
