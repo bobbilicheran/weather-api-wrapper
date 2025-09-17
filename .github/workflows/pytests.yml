@@ -47,17 +47,18 @@ jobs:
       - name: Run tests
         run: python -m pytest -v
 
-docker:
-  runs-on: ubuntu-latest
-  needs: test
-  steps:
-    - uses: actions/checkout@v4
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Build Docker image
-      run: docker build -t weather-api:ci-test .
+      - name: Build Docker image
+        run: docker build -t weather-api:ci-test .
 
-    - name: Run container to verify startup
-      run: |
-        docker run -d -p 8000:8000 --name weather-api weather-api:ci-test
-        sleep 5
-        curl --fail http://localhost:8000/weather?lat=0&lon=0
+      - name: Run container to verify startup
+        run: |
+          docker run -d -p 8000:8000 --name weather-api weather-api:ci-test
+          sleep 5
+          curl --fail http://localhost:8000/weather?lat=0&lon=0
+
