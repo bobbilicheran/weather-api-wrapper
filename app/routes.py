@@ -1,31 +1,25 @@
-# app/routes.py
-
-from fastapi import APIRouter, Query, HTTPException
-from app.services import get_weather
+from fastapi import APIRouter, HTTPException, Query
+from app.services import fetch_weather
 from app.llm import generate_weather_report
-from app.models import WeatherResponse
 
 router = APIRouter()
 
-@router.get("/weather", response_model=WeatherResponse)
-async def weather(
-    lat: float = Query(..., description="Latitude of the location", ge=-90, le=90),
-    lon: float = Query(..., description="Longitude of the location", ge=-180, le=180),
+@router.get("/weather")
+async def get_weather(
+    lat: float = Query(..., ge=-90, le=90),
+    lon: float = Query(..., ge=-180, le=180),
 ):
     """
-    Fetch current weather data for the given coordinates
-    and generate a human-readable weather report.
+    API endpoint: Fetch weather and return JSON with LLM-generated report.
     """
     try:
-        raw_weather = await get_weather(lat, lon)
-        report = generate_weather_report(raw_weather)
-
-        return WeatherResponse(
-            latitude=lat,
-            longitude=lon,
-            temperature=raw_weather.get("current_weather", {}).get("temperature"),
-            report=report,
-        )
-
+        weather_data = await fetch_weather(lat, lon)
+        report = generate_weather_report(weather_data)
+        return {
+            "latitude": lat,
+            "longitude": lon,
+            "temperature": weather_data["current_weather"]["temperature"],
+            "report": report,
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

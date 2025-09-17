@@ -13,7 +13,7 @@ class WeatherResponse(BaseModel):
             "example": {
                 "latitude": 43.7,
                 "longitude": -79.4,
-                "temperature": 22.1,
-                "report": "It’s a mild day with calm winds. Great for outdoor activities!"
+                "temperature": 24.1,
+                "report": "It’s a warm day in your area with temperatures around 24.0°C and winds near 7.0 km/h."
             }
         }
