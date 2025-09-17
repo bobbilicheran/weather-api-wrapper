@@ -64,7 +64,7 @@ curl "http://localhost:8000/weather?lat=43.7&lon=-79.4"
   "latitude": 43.7,
   "longitude": -79.4,
   "temperature": 16.0,
-  "report": "The temperature is 16.0°C with wind speed 7.6 km/h."
+  "report": "It’s a mild day in your area with temperatures around 16.0°C and winds near 7.6 km/h."
 }
 ```
 
@@ -79,11 +79,11 @@ Enter latitude/longitude → Get Weather → See formatted report.
 ## Screenshots
 
 ### Web UI
-![Web UI Screenshot](image.png)
+![alt text](image-2.png)
 
 
 ### API JSON Response
-![API Response Screenshot](image-1.png)
+![alt text](image.png)
 
 - **API** → [http://localhost:8000/weather?lat=43.7&lon=-79.4](http://localhost:8000/weather?lat=43.7&lon=-79.4)
 - **UI** → [http://localhost:8000/frontend/index.html](http://localhost:8000/frontend/index.html)
@@ -107,9 +107,18 @@ docker-compose up --build
 
 ## Testing
 
-Run all tests:
+## CI/CD
+This project includes a GitHub Actions workflow (`.github/workflows/tests.yml & github/workflows/Security_scan.yml`) that:
+- Runs linting & tests on every push/PR.
+- Ensures code quality and prevents regressions.
+- Static analysis of code for common security flaws.
+- Dependency vulnerability scanning** (checks for known CVEs in your libraries).
+- Container security checks (Dockerfile hardening, image scanning).
+
+
+To run tests locally:
 ```bash
-pytest -v
+python -m pytest -v
 ```
 
 - **Unit tests** → `test_weather.py` (service) & `test_llm.py` (LLM logic)
@@ -134,7 +143,11 @@ weather-api-wrapper/
 │
 │── frontend/
 │   └── index.html       # Simple UI
-│
+│── .github/
+│   └── workflows/       # CI/CD pipelines
+│       ├── pytests.yml          # Linting + unit/integration tests
+│       └── Security_scan.yml    # Security scans (MSDO, Bandit, Docker)
+|
 │── requirements.txt     # Dependencies
 │── Dockerfile           # Multi-stage build
 │── docker-compose.yml   # (Optional) for local dev

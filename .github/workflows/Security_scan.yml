@@ -2,9 +2,9 @@ name: Microsoft Security DevOps
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["**"]       # all branches
   pull_request:
-    branches: [ "main" ]
+    branches: ["**"]       # all PRs
 
 permissions:
   contents: read

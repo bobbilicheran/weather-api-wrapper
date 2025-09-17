@@ -1,16 +1,29 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Python
+**/__pycache__/
+*.py[cod]
 *.db
 *.sqlite3
 *.egg-info
 .Python
+
+# Virtual environments
 .env
 .venv
 env/
 venv/
+
+# IDE
 .idea/
 .vscode/
+
+# Git
 .git/
+.gitignore
+
+# Tests (don’t need in final image)
 tests/
+
+# Logs and coverage
+*.log
+.coverage
+htmlcov/
